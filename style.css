@@ -1,0 +1,73 @@
+/* Tarayıcının varsayılan boşluklarını sıfırla */
+body {
+    margin: 0; 
+    font-family: Arial, sans-serif;
+    padding-top: 100px; /* Navigasyonun üzerine çakışmaması için içerik üstten boşluk bırakır */
+}
+
+/* H1 BAŞLIĞINI ORTALAMAK */
+.centered-heading {
+    text-align: center;
+    color: #cb2cbe;
+}
+
+/* P etiketi altındaki metni de ortalamak için (isteğe bağlı) */
+.centered-text {
+    text-align: center;
+}
+
+/* NAVİGASYONU SAĞ ÜSTE SABİTLEME */
+.top-right-nav {
+    /* Konumlandırma için ana gövdeyi referans alır */
+    position: absolute; 
+    top: 30px;       /* Sayfanın üst kenarından 30 piksel aşağıda */
+    right: 30px;     /* Sayfanın sağ kenarından 30 piksel solda */
+}
+
+/* Navigasyon Linklerini Stilize Etme */
+.top-right-nav a {
+    margin-left: 20px; /* Linkler arasında boşluk */
+    text-decoration: none; /* Alt çizgiyi kaldır */
+    color: #36b81c; /* Link rengi */
+    font-weight: bold;
+    transition: color 0.3s; /* Hover efekti için yumuşak geçiş */
+}
+
+/* Hover Animasyonu (Ödevde istenen animasyonun basit bir örneği) */
+.top-right-nav a:hover {
+    color: #0056b3; /* Fare üzerine gelince renk değiştir */
+}
+
+
+/* SELİM ISSI! Yazısını Kapsayan Linkin Çerçevesi */
+.instagram-link {
+    /* Linkin varsayılan alt çizgisini kaldırır */
+    text-decoration: none; 
+    
+    /* H1'in genişliğini alması için blok yap */
+    display: inline-block; 
+    
+    /* Başlangıç Çerçeve Stili */
+    border: 3px solid #ccc; /* Gri çerçeve */
+    padding: 10px 20px;     /* İç boşluk */
+    border-radius: 10px;    /* Köşeleri yuvarlama */
+    
+    /* Animasyon için yumuşak geçişler (transition) */
+    transition: all 0.3s ease-in-out;
+    
+    /* H1'in rengini miras alır (centered-heading'den) */
+    color: inherit; 
+}
+
+
+/* İmleç Üzerine Geldiğinde (Hover) Animasyon */
+.instagram-link:hover {
+    /* 1. Çerçeve Rengi ve Kalınlığını Değiştirme */
+    border-color: #E1306C; /* Instagram rengine yakın bir renk */
+    border-width: 5px;     /* Çerçeveyi kalınlaştır */
+    
+    /* 2. Hafif Titreme Efekti (Transform) */
+    transform: scale(1.05); /* Yazıyı %5 büyüt */
+    box-shadow: 0 0 15px rgba(225, 48, 108, 0.5); /* Hafif gölge ekle */
+    cursor: pointer; /* İmleci el işaretine dönüştür */
+}
