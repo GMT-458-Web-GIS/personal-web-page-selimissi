@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<button class="theme-toggle" id="themeToggle" aria-label="Temayı değiştir" title="Temayı değiştir">
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
   <span class="theme-glyph">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <circle class="sun-core" cx="12" cy="12" r="4"/>
@@ -24,13 +24,13 @@
 
 <nav class="nav">
   <div class="nav-inner">
-    <div class="brand"><span class="dot"></span><a href="index.html">Selim Issı ✈︎</a></div>
+    <div class="brand"><span class="dot"></span><a href="index_en.html">Selim Issı ✈︎</a></div>
     <div class="links">
-      <a href="index.html" class="btnlike active">Anasayfa</a>
-      <a href="hakkimda.html" class="btnlike">Hakkımda</a>
-      <a href="sosyal.html" class="btnlike">Sosyal</a>
-      <a href="harita.html" class="btnlike">Harita</a>
-      <a href="index_en.html" class="btnlike" aria-label="English" title="English">
+      <a href="index_en.html" class="btnlike active">Home</a>
+      <a href="hakkimda_en.html" class="btnlike">About</a>
+      <a href="sosyal_en.html" class="btnlike">Social</a>
+      <a href="harita_en.html" class="btnlike">Map</a>
+      <a href="index.html" class="btnlike" aria-label="Türkçe" title="Türkçe">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
           <ellipse cx="12" cy="12" rx="4.5" ry="10" stroke="currentColor" stroke-width="1.5"/>
@@ -45,14 +45,12 @@
   <div class="wrap">
     <div class="card panel about-section">
       <div class="about-text">
-        <h1 class="title">Kişisel Web Sayfama Hoş Geldiniz!</h1>
+        <h1 class="title">Welcome to My Web Page!</h1>
         <p class="subtitle">
-          Merhaba! Ben <strong>Mustafa Selim Issı</strong>.
-          Bu site WebGIS dersi kapsamında hazırlandı ve Ankara çevresinde
-          gerçekleştirdiğim eğitim/seyrüsefer rotasını içeriyor.
-          <em>Hakkımda</em> sayfasında beni daha yakından tanıyabilir,
-          <em>Sosyal</em> sayfasından iletişime geçebilir,
-          <em>Harita</em> sayfasında rotayı görüntüleyebilirsiniz.
+          Hello! I’m <strong>Mustafa Selim Issı</strong>.
+          This site was created as part of the WebGIS course and includes my training/navigation route around Ankara.
+          You can learn more about me on the <em>About</em> page, connect via the <em>Social</em> page,
+          and view the route on the <em>Map</em> page.
         </p>
       </div>
       <div class="about-photo">
@@ -65,10 +63,10 @@
 <footer>© <span id="y"></span> Mustafa Selim Issı · WebGIS</footer>
 
 <script>
-  // footer yılı
+  // footer year
   document.getElementById('y').textContent = new Date().getFullYear();
 
-  // tema (yalnızca 'theme-light' sınıfı ile)
+  // theme (light toggles with a single class)
   (function(){
     const saved = localStorage.getItem('site-theme');
     if (saved === 'light') document.documentElement.classList.add('theme-light');

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Map | Selim Issı</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin=""/>
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle theme" title="Toggle theme">
+  <span class="theme-glyph">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <circle class="sun-core" cx="12" cy="12" r="4"/>
+      <g>
+        <path d="M12 1.5v3"/><path d="M12 19.5v3"/>
+        <path d="M4.22 4.22l2.12 2.12"/><path d="M17.66 17.66l2.12 2.12"/>
+        <path d="M1.5 12h3"/><path d="M19.5 12h3"/>
+        <path d="M4.22 19.78l2.12-2.12"/><path d="M17.66 6.34l2.12-2.12"/>
+      </g>
+    </svg>
+  </span>
+</button>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="dot"></span><a href="index_en.html">Selim Issı ✈︎</a></div>
+    <div class="links">
+      <a href="index_en.html" class="btnlike">Home</a>
+      <a href="hakkimda_en.html" class="btnlike">About</a>
+      <a href="sosyal_en.html" class="btnlike">Social</a>
+      <a href="harita_en.html" class="btnlike active">Map</a>
+      <a href="harita.html" class="btnlike" aria-label="Türkçe" title="Türkçe">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/>
+          <ellipse cx="12" cy="12" rx="4.5" ry="10" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M2 12h20M12 2a16 16 0 0 1 0 20" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<section>
+  <div class="wrap">
+    <div class="card panel">
+      <h1 class="title">Ankara Etimesgut Airfield Navigation Route</h1>
+      <p class="subtitle">
+        This route was flown over Ankara as part of a navigation training.
+        It covers about <strong>125 NM (230 km)</strong> and takes roughly
+        <strong>1 hour 20 minutes</strong> in a Cessna 172.
+      </p>
+      <p class="subtitle">
+        Route: <em>Etimesgut Airfield → Şehitali → Temelli → Polatlı → Haymana → Bala → İkizce Pond → Etimesgut Airfield</em>
+      </p>
+      <div id="map"></div>
+    </div>
+  </div>
+</section>
+
+<footer>© <span id="y"></span> Mustafa Selim Issı · WebGIS</footer>
+
+<!-- 1) ÖNCE Leaflet JS'yi yükle -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<script>
+  // yıl
+  document.getElementById('y').textContent = new Date().getFullYear();
+
+  // 2) Sonra haritayı başlat
+  const map = L.map('map');
+
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19,
+    attribution: 'Imagery © Esri, Maxar, Earthstar Geographics'
+  });
+
+  const wpts = [
+    {name:'Etimesgut Airfield',lat:39.949,lon:32.688},
+    {name:'Şehitali',lat:39.772,lon:32.608},
+    {name:'Temelli',lat:39.726,lon:32.354},
+    {name:'Polatlı',lat:39.582,lon:32.141},
+    {name:'Haymana',lat:39.434,lon:32.500},
+    {name:'Bala',lat:39.553,lon:33.123},
+    {name:'İkizce Pond',lat:39.613,lon:32.661},
+    {name:'Etimesgut Airfield',lat:39.949,lon:32.688}
+  ];
+
+  const redIcon = new L.Icon({
+    iconUrl:'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    shadowUrl:'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png',
+    iconSize:[25,41], iconAnchor:[12,41], popupAnchor:[1,-34], shadowSize:[41,41]
+  });
+
+  const markers = L.layerGroup();
+  wpts.forEach((p,i)=>{
+    L.marker([p.lat,p.lon], (i===0||i===wpts.length-1)?{icon:redIcon}:{})
+      .bindPopup(`<b>${p.name}</b>`).addTo(markers);
+  });
+  markers.addTo(map);
+
+  const route = L.polyline(wpts.map(p=>[p.lat,p.lon]), {color:'#00b4d8',weight:4}).addTo(map);
+
+  L.control.layers(
+    {'Default': osm, 'Satellite': esriSat},
+    {'Route': route, 'Waypoints': markers},
+    {collapsed: true}
+  ).addTo(map);
+
+  map.fitBounds(route.getBounds().pad(0.25));
+
+  // 3) Tema butonu
+  (function(){
+    const saved = localStorage.getItem('site-theme');
+    if(saved === 'light') document.documentElement.classList.add('theme-light');
+  })();
+  const btn = document.getElementById('themeToggle');
+  btn && btn.addEventListener('click', () => {
+    const isLight = document.documentElement.classList.toggle('theme-light');
+    localStorage.setItem('site-theme', isLight ? 'light' : 'dark');
+  });
+</script>
+
+</body>
+</html>

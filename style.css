@@ -1,73 +1,139 @@
-/* Tarayıcının varsayılan boşluklarını sıfırla */
-body {
-    margin: 0; 
-    font-family: Arial, sans-serif;
-    padding-top: 100px; /* Navigasyonun üzerine çakışmaması için içerik üstten boşluk bırakır */
+:root{
+  --bg:#0b0e10; --card:#12161a; --text:#e7eef5; --muted:#a7b3be;
+  --brand:#4cc9f0; --accent:#80ffdb; --radius:16px; --border:rgba(255,255,255,.08);
+  --shadow:0 10px 30px rgba(0,0,0,.25);
+}
+html.theme-light{
+  --bg:#f7fbff; --card:#fff; --text:#0b1220; --muted:#5a6b7a;
+  --brand:#2563eb; --accent:#14b8a6; --border:rgba(0,0,0,.10);
+  --shadow:0 10px 26px rgba(0,0,0,.10);
 }
 
-/* H1 BAŞLIĞINI ORTALAMAK */
-.centered-heading {
-    text-align: center;
-    color: #cb2cbe;
+/* Genel */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:ui-sans-serif,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+  color:var(--text);
+  background:
+    radial-gradient(1200px 600px at 80% -10%, rgba(128,255,219,.08),transparent 40%),
+    radial-gradient(900px 500px at -10% 10%, rgba(76,201,240,.08),transparent 40%),
+    var(--bg);
+}
+a{color:var(--brand); text-decoration:none}
+section{padding:48px 20px}
+.wrap{max-width:960px; margin:0 auto}
+.card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow)}
+.panel{padding:26px}
+.title{margin:0 0 10px; font-size:clamp(26px,4vw,40px)}
+.subtitle{color:var(--muted)}
+footer{padding:30px 20px 60px; color:var(--muted); text-align:center}
+
+/* Navbar */
+.nav{
+  position:sticky; top:0; z-index:1000;
+  backdrop-filter:blur(8px);
+  background:rgba(0,0,0,.25);
+  border-bottom:1px solid var(--border);
+}
+.nav-inner{
+  max-width:960px; margin:0 auto; padding:12px 20px;
+  display:flex; justify-content:space-between; align-items:center;
+}
+.brand{display:flex; align-items:center; gap:10px; font-weight:700}
+.dot{
+  width:10px; height:10px; border-radius:999px;
+  background:linear-gradient(45deg,var(--brand),var(--accent));
+  box-shadow:0 0 14px rgba(128,255,219,.6);
+}
+.links{display:flex; gap:12px; align-items:center}
+.btnlike{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:8px 14px; border-radius:12px; border:1px solid var(--border);
+  background:rgba(255,255,255,.02);
+  color:var(--text);
+  transition:transform .15s ease, background .15s ease, box-shadow .15s ease;
+}
+.btnlike:hover{transform:scale(1.06); background:rgba(128,255,219,.08); box-shadow:0 6px 18px rgba(0,0,0,.25)}
+.links a.active{outline:2px solid rgba(128,255,219,.25)}
+.links a.btnlike svg{display:block}
+
+/* Tema düğmesi (sol orta) */
+.theme-toggle{
+  position:fixed; left:12px; top:50%; transform:translateY(-50%);
+  z-index:2000; width:44px; height:44px; border-radius:12px;
+  border:1px solid var(--border);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));
+  backdrop-filter:blur(8px); box-shadow:var(--shadow);
+  display:grid; place-items:center; cursor:pointer;
+  transition:transform .15s, box-shadow .15s;
+}
+.theme-toggle:hover{transform:translateY(-50%) scale(1.06)}
+.theme-glyph{width:22px; height:22px; display:block}
+.theme-glyph svg{display:block}
+html:not(.theme-light) .theme-glyph .sun-core{fill:#FFD43B}
+html.theme-light .theme-glyph .sun-core{fill:#f59e0b}
+
+/* Sosyal */
+.social-wrap{display:flex; justify-content:center}
+.social-list{display:flex; flex-direction:column; gap:18px; width:100%; max-width:560px}
+.social-item{
+  display:flex; align-items:center; gap:12px;
+  border:1px solid var(--border); border-radius:14px; padding:14px 18px;
+  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.01));
+  box-shadow:var(--shadow);
+  transition:transform .2s, border-color .2s, background .2s;
+}
+.social-item:hover{transform:scale(1.03); border-color:var(--accent); background:rgba(255,255,255,.04)}
+.social-icon{width:36px; height:36px; flex:0 0 36px; transition:transform .2s, filter .3s}
+.social-item:hover .social-icon{transform:scale(1.12)}
+.social-item strong{font-size:1.05rem}
+.social-item .muted{margin-left:auto; color:var(--muted)}
+html.theme-light .social-icon{filter:invert(1) brightness(.25) contrast(1.1)}
+html.theme-light .social-item strong,
+html.theme-light .social-item .muted{color:#222}
+
+/* Harita */
+#map{width:100%; height:520px; border-radius:var(--radius); margin-top:10px}
+
+/* Anasayfa profil */
+.about-section{display:flex; align-items:center; justify-content:space-between; gap:30px}
+.about-text{flex:1}
+.about-photo{flex:0 0 220px; display:flex; justify-content:center}
+.about-photo img{
+  width:220px; height:220px; border-radius:50%; object-fit:cover;
+  border:3px solid var(--accent);
+  box-shadow:0 0 25px rgba(128,255,219,.3);
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.about-photo img:hover{transform:scale(1.05); box-shadow:0 0 40px rgba(128,255,219,.5)}
+
+/* Hakkımda — foto galeri */
+.photo-gallery{
+  display:flex; justify-content:center; align-items:flex-start;
+  gap:35px; flex-wrap:wrap; margin-top:45px;
+}
+.photo-card{
+  background:var(--card); border-radius:16px; overflow:hidden;
+  box-shadow:var(--shadow);
+  transition:transform .3s ease, box-shadow .3s ease;
+}
+.photo-card:hover{transform:scale(1.03); box-shadow:0 0 28px rgba(255,200,120,.25)}
+.photo-card img{width:100%; display:block; object-fit:cover}
+.photo-card.wide{width:480px; height:270px}   /* 16:9 */
+.photo-card.tall{width:360px; height:420px}
+.photo-card.tall img{object-position:50% 40%}
+.photo-caption{
+  font-size:.9rem; text-align:center; padding:10px;
+  opacity:.8; border-top:1px solid var(--border);
 }
 
-/* P etiketi altındaki metni de ortalamak için (isteğe bağlı) */
-.centered-text {
-    text-align: center;
+/* Responsive */
+@media (max-width:720px){
+  .about-section{flex-direction:column-reverse; text-align:center}
+  .about-photo{margin-top:15px}
 }
-
-/* NAVİGASYONU SAĞ ÜSTE SABİTLEME */
-.top-right-nav {
-    /* Konumlandırma için ana gövdeyi referans alır */
-    position: absolute; 
-    top: 30px;       /* Sayfanın üst kenarından 30 piksel aşağıda */
-    right: 30px;     /* Sayfanın sağ kenarından 30 piksel solda */
-}
-
-/* Navigasyon Linklerini Stilize Etme */
-.top-right-nav a {
-    margin-left: 20px; /* Linkler arasında boşluk */
-    text-decoration: none; /* Alt çizgiyi kaldır */
-    color: #36b81c; /* Link rengi */
-    font-weight: bold;
-    transition: color 0.3s; /* Hover efekti için yumuşak geçiş */
-}
-
-/* Hover Animasyonu (Ödevde istenen animasyonun basit bir örneği) */
-.top-right-nav a:hover {
-    color: #0056b3; /* Fare üzerine gelince renk değiştir */
-}
-
-
-/* SELİM ISSI! Yazısını Kapsayan Linkin Çerçevesi */
-.instagram-link {
-    /* Linkin varsayılan alt çizgisini kaldırır */
-    text-decoration: none; 
-    
-    /* H1'in genişliğini alması için blok yap */
-    display: inline-block; 
-    
-    /* Başlangıç Çerçeve Stili */
-    border: 3px solid #ccc; /* Gri çerçeve */
-    padding: 10px 20px;     /* İç boşluk */
-    border-radius: 10px;    /* Köşeleri yuvarlama */
-    
-    /* Animasyon için yumuşak geçişler (transition) */
-    transition: all 0.3s ease-in-out;
-    
-    /* H1'in rengini miras alır (centered-heading'den) */
-    color: inherit; 
-}
-
-
-/* İmleç Üzerine Geldiğinde (Hover) Animasyon */
-.instagram-link:hover {
-    /* 1. Çerçeve Rengi ve Kalınlığını Değiştirme */
-    border-color: #E1306C; /* Instagram rengine yakın bir renk */
-    border-width: 5px;     /* Çerçeveyi kalınlaştır */
-    
-    /* 2. Hafif Titreme Efekti (Transform) */
-    transform: scale(1.05); /* Yazıyı %5 büyüt */
-    box-shadow: 0 0 15px rgba(225, 48, 108, 0.5); /* Hafif gölge ekle */
-    cursor: pointer; /* İmleci el işaretine dönüştür */
+@media (max-width:640px){
+  .nav-inner{flex-direction:column; gap:8px}
+  .theme-toggle{width:40px; height:40px}
 }
